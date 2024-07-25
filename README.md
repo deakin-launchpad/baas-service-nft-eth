@@ -2,6 +2,24 @@
 
 This is a Node Express application that serves as a nft service. This service provides a route to deploy a nft given certain parameters to the Sepolia TestNet.
 
+To mint an NFT, you can either use the baas-backend and baas-frontend and connect to this service, or you can directly hit the API endpoint "/api/demo/mintNftIPFS" for this application which accepts a JSON body type in this format:
+
+{
+    jobID: String,
+    datashopServerAddress: String,
+    dataFileURL: {
+        url: String,
+        json: {
+            assetName: String,
+            assetUnitName: String,
+	    totalSupply: Number,
+     	    decimals: Number,
+            receiver: String (RegExp("[A-Z2-7]{58}")),
+            assetURL: (String)
+        }
+    }
+}
+
 ## Other BaaS services we offer.
 
 There are also other baas services that we have developed. These include:
@@ -64,12 +82,10 @@ $ npm -v
 
 ## Setup Service
 
-This is the Sepolia Counter service. There are two routes available through this service. These are:
+This is the Sepolia Token Minter service. There is one route available through this service:
 
 ```
-1. /api/demo/increase_counter
-
-2. /api/demo/decrease_counter
+1. /api/demo/mintNftIPFS
 ```
 
 To run the service, simply follow these steps:
@@ -77,51 +93,9 @@ To run the service, simply follow these steps:
 - Step1: Clone this repository
 
 ```
-$ git clone https://github.com/deakin-launchpad/baas-service-sepoliaCounter
+$ git clone https://github.com/deakin-launchpad/baas-service-nft-eth
 
-$ cd baas-service-sepoliaCounter
-```
-
-- Step2: Install node modules
-
-```
-$ npm i
-
-or
-
-$ npm install
-```
-
-- Step3: Copy .env.example to .env
-
-```
-$ cp .env.example .env
-```
-
-- Step4: Start the application
-
-```
-$ npm run start
-```
-
-or to start in dev mode
-
-```
-$ npm run startWithNodemon
-```
-
-The current version of your application would be running on **http://localhost:8080** or **http://IP_OF_SERVER:8080** (in case you are running on the server)
-
-## Setup Node User Onboarding Application
-
-This is another application that is required to interact with services like this
-
-- Step1: Git clone the application
-
-```
-$ git clone https://github.com/deakin-launchpad/baas_backend
-
-$ cd baas_backend
+$ cd baas-service-nft-eth
 ```
 
 - Step2: Install node modules
