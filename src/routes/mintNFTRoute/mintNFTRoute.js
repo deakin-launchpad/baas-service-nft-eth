@@ -25,13 +25,20 @@ const mintNftIPFS = {
 				dataFileURL: Joi.object({
 					url: Joi.any(),
 					json: Joi.object({
-						assetName: Joi.string().required(),
-						assetUnitName: Joi.string().required(),
-						totalSupply: Joi.number().required(),
-						decimals: Joi.number().required(),
-						assetURL: Joi.string().optional().allow(""),
-						receiver: Joi.string().required(),
+						name: Joi.string().required(),
+						symbol: Joi.string().required(),
+						baseURI: Joi.string().required(),
+						admin: Joi.string().required(),
+						minter: Joi.string().required(),
 					}),
+					// json: Joi.object({
+					// 	assetName: Joi.string().required(),
+					// 	assetUnitName: Joi.string().required(),
+					// 	totalSupply: Joi.number().required(),
+					// 	decimals: Joi.number().required(),
+					// 	assetURL: Joi.string().optional().allow(""),
+					// 	receiver: Joi.string().required(),
+					// }),
 				})
 			}).label("Mint NFT IPFS"),
 			failAction: UniversalFunctions.failActionFunction,
