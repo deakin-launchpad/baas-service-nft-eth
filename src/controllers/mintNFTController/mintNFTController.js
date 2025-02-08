@@ -23,12 +23,11 @@ const NftContract = new web3.eth.Contract(getNftABI(), { from: signer.address })
  * @param {Object} payloadData.dataFileURL
  * @param {String} payloadData.dataFileURL.url
  * @param {Object} payloadData.dataFileURL.json
- * @param {String} payloadData.dataFileURL.json.assetName
- * @param {String} payloadData.dataFileURL.json.assetUnitName
- * @param {String} payloadData.dataFileURL.json.totalSupply
- * @param {Number} payloadData.dataFileURL.json.decimals
- * @param {Number} payloadData.dataFileURL.json.assetURL
- * @param {String} payloadData.dataFileURL.json.receiver
+ * @param {String} payloadData.dataFileURL.json.name
+ * @param {String} payloadData.dataFileURL.json.symbol
+ * @param {String} payloadData.dataFileURL.json.baseURI
+ * @param {Number} payloadData.dataFileURL.json.admin
+ * @param {Number} payloadData.dataFileURL.json.minter
  * @param {Function} callback
  */
 const mintNftIPFS = (payloadData, callback) => {
@@ -36,12 +35,11 @@ const mintNftIPFS = (payloadData, callback) => {
 
     let data = payloadData.dataFileURL.json;
 
-    let assetName = data.assetName;
-    let assetUnitName = data.assetUnitName;
-    let totalSupply = data.totalSupply;
-    let decimals = data.decimals;
-    let assetURL = data.assetURL;
-    let receiver = data.receiver;
+    let name = data.name;
+    let symbol = data.symbol;
+    let baseURI = data.baseURI;
+    let admin = data.admin;
+    let minter = data.minter;
 
     let _nftContractInstance;
 
@@ -49,7 +47,7 @@ const mintNftIPFS = (payloadData, callback) => {
         deployNftContract: async (cb) => {
             console.log("=== DEPLOY COMPANY CONTRACT ===");
             try {
-                const args = [receiver, assetName, assetUnitName, assetURL];
+                const args = [name, symbol, baseURI, admin, minter];
 
                 const nftContractEstimatedGas = await NftContract.deploy({
                     data: getNftBin(),
@@ -79,19 +77,19 @@ const mintNftIPFS = (payloadData, callback) => {
         if (err || !nftContractAddress) {
             // respond to server with error
             returnData = null;
-            // return callback(err)
+            return callback(err)
         } else {
             // respond to server with success
             returnData = { nftContractAddress };
-            // callback(null, { returnData })
+            callback(null, { returnData })
         }
-        respondToServer(payloadData, returnData, (err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(result);
-            }
-        });
+        // respondToServer(payloadData, returnData, (err, result) => {
+        //     if (err) {
+        //         console.log(err);
+        //     } else {
+        //         console.log(result);
+        //     }
+        // });
 
     });
 };
